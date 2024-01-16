@@ -28,26 +28,24 @@ const Home = () => {
 					</div>
 
 					<div className={style.HomeContentWrapper}>
-						<span>relating to motion.</span>
+						<span>- relating to motion.</span>
 
-						<span>relating to kinesis or motor function.</span>
+						<span>- relating to kinesis or motor function.</span>
 
 						<span>
-							(biology) relating to the movement of an organism in response to an external stimulus.
+							- (biology) relating to the movement of an organism in response to an external stimulus.
 						</span>
 
 						<span>
-
-							(philosophy) relating to the force driving life forward.
+							- (philosophy) relating to the force driving life forward.
 						</span>
 
 						<span>
-							(military, euphemistic) relating to active warfare or the use of lethal force.
+							- (military, euphemistic) relating to active warfare or the use of lethal force.
 						</span>
 
 						<span>
-
-							kinetic military action(slang) Frantic; busy.
+							- kinetic military action(slang) Frantic; busy.
 						</span>
 
 					</div>

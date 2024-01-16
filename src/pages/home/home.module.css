@@ -1,3 +1,30 @@
 .Home{
+	display: flex;
+	flex-direction: column;
 	color: #FFF;
+	gap: 100px;
+}
+
+.HomeContent{
+	display: flex;
+	gap: 200px;
+	margin: auto;
+	justify-content: center;
+}
+
+.HomeContentWrapper{
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	text-align: left;
+}
+
+.HomeContentTextWrapper{
+	display: flex;
+	flex-direction: column;
+	gap: 50px;
+}
+
+.HomeContentTextHeadingWrapper{
+
 }
