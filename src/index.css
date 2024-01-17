@@ -1,8 +1,28 @@
 body {
-  background-color: #000;
+	background-color: #000;
+	/* font-family: 'Space Mono', sans-serif; */
+	font-family: "Space Mono", monospace;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.space-mono-regular {
+	font-weight: 400;
+	font-style: normal;
+}
+
+.space-mono-regular-italic {
+	font-family: "Space Mono", monospace;
+	font-weight: 400;
+	font-style: italic;
+}
+
+.space-mono-bold {
+	font-family: "Space Mono", monospace;
+	font-weight: 700;
+	font-style: normal;
+}
+
+.space-mono-bold-italic {
+	font-family: "Space Mono", monospace;
+	font-weight: 700;
+	font-style: italic;
 }

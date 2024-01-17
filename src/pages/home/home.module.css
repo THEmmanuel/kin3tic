@@ -25,6 +25,12 @@
 	gap: 50px;
 }
 
-.HomeContentTextHeadingWrapper{
+.HomeContentTextHeading{
+	
+}
 
+.HomeContentTextHeadingWrapper{
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
 }

@@ -9,8 +9,8 @@ const Home = () => {
 			<div className={style.HomeContent}>
 				<div className={style.HomeContentTextWrapper}>
 					<div className={style.HomeContentTextHeadingWrapper}>
-						<span className={style.HomeContentText}>PROJECT</span>
-						<span className={style.HomePronunciation}>/ˈprɒʤekt/, /prəˈʤekt/ </span>
+						<span className={style.HomeContentTextHeading}>PROJECT</span>
+						<span className={style.HomeContentPronunciation}>/ˈprɒʤekt/, /prəˈʤekt/ </span>
 					</div>
 
 					<div className={style.HomeContentWrapper}>
@@ -24,6 +24,7 @@ const Home = () => {
 				<div className={style.HomeContentTextWrapper}>
 					<div className={style.HomeContentTextHeadingWrapper}>
 						<span className={style.HomeContentText}>KINETIC</span>
+						
 						<span className={style.HomePronunciation}>/kɪˈnetɪk/ </span>
 					</div>
 
