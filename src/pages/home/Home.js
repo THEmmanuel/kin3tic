@@ -57,7 +57,7 @@ const Home = () => {
 				<span className={style.HomeContentText}>
 					CONTACT
 				</span>
-				<a href="ayxdele.pro" target="_blank" rel="noopener noreferrer">ayxdele.pro</a>
+				<a href="https://ayxdele.pro" target="_blank" rel="noopener noreferrer">ayxdele.pro</a>
 			</div>
 		</div >
 	)
