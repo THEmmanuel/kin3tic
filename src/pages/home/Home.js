@@ -24,8 +24,8 @@ const Home = () => {
 				<div className={style.HomeContentTextWrapper}>
 					<div className={style.HomeContentTextHeadingWrapper}>
 						<span className={style.HomeContentText}>KINETIC</span>
-						
-						<span className={style.HomePronunciation}>/kɪˈnetɪk/ </span>
+
+						<span className={style.HomeContentPronunciation}>/kɪˈnetɪk/ </span>
 					</div>
 
 					<div className={style.HomeContentWrapper}>
@@ -51,6 +51,13 @@ const Home = () => {
 
 					</div>
 				</div>
+			</div>
+
+			<div className={style.HomeContentTextWrapper}>
+				<span className={style.HomeContentText}>
+					CONTACT
+				</span>
+				<a href="ayxdele.pro" target="_blank" rel="noopener noreferrer">ayxdele.pro</a>
 			</div>
 		</div >
 	)

@@ -3,6 +3,7 @@
 	flex-direction: column;
 	color: #FFF;
 	gap: 100px;
+	margin-bottom: 200px;
 }
 
 .HomeContent{
@@ -17,6 +18,9 @@
 	flex-direction: column;
 	gap: 20px;
 	text-align: left;
+	font-size: 0.8em;
+	width: 60%;
+	margin: 10px auto;
 }
 
 .HomeContentTextWrapper{
@@ -33,4 +37,20 @@
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
+}
+
+.HomeContentPronunciation{
+	color: #444;
+	font-size: 0.75em;
+}
+
+@media (max-width: 1100px){
+	.HomeContent{
+		flex-direction: column;
+		gap: 100px;
+	}
+}
+
+a{
+	color: #FFF;
 }
