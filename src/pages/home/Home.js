@@ -52,13 +52,6 @@ const Home = () => {
 					</div>
 				</div>
 			</div>
-
-			<div className={style.HomeContentTextWrapper}>
-				<span className={style.HomeContentText}>
-					CONTACT
-				</span>
-				<a href="https://ayxdele.pro" target="_blank" rel="noopener noreferrer">ayxdele.pro</a>
-			</div>
 		</div >
 	)
 }

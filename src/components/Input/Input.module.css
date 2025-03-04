@@ -1,0 +1,16 @@
+.Input {
+	background-color: transparent;
+	border: 1px solid #ccc;
+	padding: 10px;
+	color: #FFF;
+}
+
+.InputWrapper{
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.InputLabel{
+	text-align: left;
+}
