@@ -1,23 +1,57 @@
-.ActionButtonWrappers{
+.ActionButtonWrappers {
 	display: flex;
 	flex-direction: column;
 	gap: 50px;
 }
 
-.PaymentsTitle{
+.PaymentsTitle {
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
+	margin-bottom: 20px;
 }
 
-.PaymentAmount{
+.PaymentAmount {
 	font-size: 1.2em;
 	font-weight: 700;
+	margin-bottom: 20px;
 }
 
-.PaymentsPage{
+.PaymentsPage {
 	margin-top: 120px;
 	display: flex;
 	flex-direction: column;
 	gap: 100px;
+}
+
+.KeyResult {
+	display: block;
+	width: 500px;
+	margin: auto;
+	/* Adjust width as needed */
+	white-space: normal;
+	word-break: break-word;
+	/* Ensures long words break */
+	overflow-wrap: break-word;
+	/* Alternative for better compatibility */
+	font-weight: 500;
+}
+
+.SuccessMessageWrapper{
+	display: flex;
+	flex-direction: column;
+	gap: 25px;
+}
+
+.SuccessKeyWrapper{
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin-bottom: 35px;
+}
+
+.SuccessActionnButtons{
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
 }

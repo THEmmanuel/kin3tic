@@ -94,7 +94,11 @@ const KineticKeyHome = () => {
 				</div>
 			) : (
 				<div>
-					<Payments amount={keyValue} createKey={() => createKey()} />
+					<Payments
+						amount={keyValue}
+						createKey={() => createKey()}
+						unlockHash={unlockHash}
+					/>
 				</div>
 			)}
 		</div>

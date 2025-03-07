@@ -6,6 +6,7 @@ import PaystackLogo from '../../assets/paystackLogo.svg';
 import FlutterwaveLogo from '../../assets/flwaveLogo.svg';
 import MonnifyLogo from '../../assets/monnifyLogo.svg';
 import QuickTellerLogo from '../../assets/quickTellerLogo.svg';
+import Button from '../../components/Button/Button';
 
 const API_URL = process.env.REACT_APP_BACKEND_API;
 
@@ -38,13 +39,25 @@ const Payments = ({ amount, unlockHash }) => {
 	return (
 		<div className={style.PaymentsPage}>
 			{paymentCompleted ? (
-				<div>
+				<div className={style.SuccessMessageWrapper}>
 					<span className={style.SuccessMessage}>
 						You have successfully paid the amount specified.
 					</span>
-					<span className={style.KeyResult}>Key: {keyResult}</span>
-					<ActionButton text="Copy" onClick={handleCopy} />
-					<ActionButton text="Home" onClick={() => window.location.reload()} />
+
+					<div className={style.SuccessKeyWrapper}>
+						<span className={style.KeyResult}>
+							Key:
+						</span>
+
+						<span className={style.KeyResult}>
+							{keyResult}
+						</span>
+					</div>
+
+					<div className={style.SuccessActionnButtons}>
+						<Button text="COPY" onClick={handleCopy} />
+						<Button text="HOME" onClick={() => window.location.reload()} />
+					</div>
 				</div>
 			) : (
 				<div>
@@ -62,8 +75,9 @@ const Payments = ({ amount, unlockHash }) => {
 						<ActionButton icon={QuickTellerLogo} text="PAY WITH QUICKTELLER" onClick={handlePayment} />
 					</div>
 				</div>
-			)}
-		</div>
+			)
+			}
+		</div >
 	);
 };
 
