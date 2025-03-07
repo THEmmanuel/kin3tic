@@ -1,0 +1,18 @@
+.ActionButton{
+	display: flex;
+	flex-direction: row;
+	margin: auto;
+	padding: 20px;
+	background-color: transparent;
+	color: #fff;
+	border: 1px solid #fff;
+	gap: 20px;
+	cursor: pointer;
+	width: 250px;
+	justify-content: center;
+	align-items: center;
+}
+
+.ActionButtonIcon{
+	width: 20px;
+}
