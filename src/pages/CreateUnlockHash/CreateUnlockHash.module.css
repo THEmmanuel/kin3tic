@@ -6,15 +6,32 @@
 	margin: auto;
 }
 
-.CreateUnlockHashDataWrapper{
+.CreateUnlockHashDataWrapper {
 	display: flex;
 	flex-direction: column;
 	gap: 50px;
 }
 
-.CreateUnlockHashDataInput{
+.CreateUnlockHashDataInput {
 	display: flex;
 	flex-direction: column;
 	gap: 35px;
 	margin-top: 50px;
+}
+
+.UnlockHashTextWrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+}
+
+.DecodeKeyDetectionResultButtons {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.DecodeKeyDetectionResult{
+	font-size: 1em;
+	font-weight: 500;
 }
