@@ -26,8 +26,8 @@ const CreateUnlockHash = () => {
 			setError(null);
 			console.log("Sending request to:", `${API_URL}/unlock-hash/generate`);
 			const response = await axios.post(`${API_URL}/unlock-hash/generate`, { passphrase });
-			console.log("Response received:", response.data);
-			setUnlockHash(response.data.unlockHash);
+			console.log("Response received:", response.data.keyUnlockHash);
+			setUnlockHash(response.data.data.keyUnlockHash);
 		} catch (error) {
 			console.error("Error during API request:", error);
 			setError(error.response?.data?.error || "Failed to generate unlock hash");
