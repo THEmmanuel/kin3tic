@@ -2,6 +2,9 @@
 	display: flex;
 	flex-direction: column;
 	gap: 50px;
+	width: 100%;
+	padding: 0 20px;
+	/* Adds spacing on smaller screens */
 }
 
 .PaymentsTitle {
@@ -9,12 +12,14 @@
 	flex-direction: column;
 	gap: 10px;
 	margin-bottom: 20px;
+	text-align: center;
 }
 
 .PaymentAmount {
 	font-size: 1.2em;
 	font-weight: 700;
 	margin-bottom: 20px;
+	text-align: center;
 }
 
 .PaymentsPage {
@@ -22,36 +27,89 @@
 	display: flex;
 	flex-direction: column;
 	gap: 100px;
+	align-items: center;
+	width: 100%;
 }
 
 .KeyResult {
 	display: block;
-	width: 500px;
+	width: 100%;
+	max-width: 500px;
 	margin: auto;
-	/* Adjust width as needed */
 	white-space: normal;
 	word-break: break-word;
-	/* Ensures long words break */
 	overflow-wrap: break-word;
-	/* Alternative for better compatibility */
 	font-weight: 500;
+	text-align: center;
 }
 
-.SuccessMessageWrapper{
+.SuccessMessageWrapper {
 	display: flex;
 	flex-direction: column;
 	gap: 25px;
+	width: 100%;
+	max-width: 600px;
+	padding: 0 20px;
+	margin: auto;
+	text-align: center;
 }
 
-.SuccessKeyWrapper{
+.SuccessKeyWrapper {
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
 	margin-bottom: 35px;
 }
 
-.SuccessActionnButtons{
+.SuccessActionnButtons {
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
+	width: 100%;
+	max-width: 400px;
+	margin: auto;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+	.PaymentsPage {
+		margin-top: 100px;
+		gap: 60px;
+	}
+
+	.KeyResult {
+		width: 90%;
+	}
+
+	.SuccessMessageWrapper {
+		width: 90%;
+	}
+
+	.SuccessActionnButtons {
+		width: 90%;
+	}
+}
+
+@media (max-width: 480px) {
+	.PaymentsPage {
+		margin-top: 80px;
+		gap: 40px;
+	}
+
+	.PaymentAmount {
+		font-size: 1em;
+	}
+
+	.KeyResult {
+		font-size: 0.9em;
+	}
+
+	.SuccessMessageWrapper {
+		width: 100%;
+	}
+
+	.SuccessActionnButtons {
+		width: 100%;
+		gap: 15px;
+	}
 }
