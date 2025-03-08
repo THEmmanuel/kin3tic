@@ -12,21 +12,26 @@ const DecodeKey = () => {
 	const [keyData, setKeyData] = useState(null);
 	const [decodedData, setDecodedData] = useState(null);
 	const [error, setError] = useState(null);
+	const [loading, setLoading] = useState(false);
 
 	const fetchKeyDetails = async () => {
 		try {
 			setError(null);
+			setLoading(true);
 			const response = await axios.post(`${API_URL}/kinetic-keys/key/token`, { keyToken });
 			setKeyData(response.data);
 			setDecodedData(null);
 		} catch (err) {
 			setError(err.response?.data?.error || "Failed to fetch key details");
+		} finally {
+			setLoading(false);
 		}
 	};
 
 	const decryptKey = async () => {
 		try {
 			setError(null);
+			setLoading(true);
 			const response = await axios.post(`${API_URL}/kinetic-keys/decrypt`, {
 				voucherCode: keyToken,
 				passphrase
@@ -35,6 +40,8 @@ const DecodeKey = () => {
 			setKeyData(prev => prev ? { ...prev, isDecrypted: true } : prev);
 		} catch (err) {
 			setError(err.response?.data?.error || "Decryption failed");
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -61,7 +68,7 @@ const DecodeKey = () => {
 					value={keyToken}
 					onChange={(e) => setKeyToken(e.target.value)}
 				/>
-				<Button text="VALIDATE KEY" onClick={fetchKeyDetails} />
+				<Button text={loading ? "LOADING..." : "VALIDATE KEY"} onClick={fetchKeyDetails} disabled={loading} />
 			</div>
 
 			{keyData && (
@@ -84,7 +91,7 @@ const DecodeKey = () => {
 						value={passphrase}
 						onChange={(e) => setPassphrase(e.target.value)}
 					/>
-					<Button text="DECODE KEY" onClick={decryptKey} />
+					<Button text={loading ? "LOADING..." : "DECODE KEY"} onClick={decryptKey} disabled={loading} />
 				</div>
 			)}
 

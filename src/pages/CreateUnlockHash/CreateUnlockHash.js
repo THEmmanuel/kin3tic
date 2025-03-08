@@ -11,6 +11,7 @@ const CreateUnlockHash = () => {
 	const [confirmPassphrase, setConfirmPassphrase] = useState("");
 	const [unlockHash, setUnlockHash] = useState(null);
 	const [error, setError] = useState(null);
+	const [loading, setLoading] = useState(false);
 
 	const handleGenerateHash = async () => {
 		console.log("API_URL:", API_URL);
@@ -24,6 +25,7 @@ const CreateUnlockHash = () => {
 		}
 		try {
 			setError(null);
+			setLoading(true);
 			console.log("Sending request to:", `${API_URL}/unlock-hash/generate`);
 			const response = await axios.post(`${API_URL}/unlock-hash/generate`, { passphrase });
 			console.log("Response received:", response.data.keyUnlockHash);
@@ -31,6 +33,8 @@ const CreateUnlockHash = () => {
 		} catch (error) {
 			console.error("Error during API request:", error);
 			setError(error.response?.data?.error || "Failed to generate unlock hash");
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -67,6 +71,7 @@ const CreateUnlockHash = () => {
 					/>
 				</div>
 				{error && <span className={style.Error}>{error}</span>}
+				{loading && <span className={style.Loading}>Loading...</span>}
 				{unlockHash ? (
 					<div className={style.UnlockHashTextWrapper}>
 						<span className={style.DecodeKeyDetectionResult}>
@@ -79,7 +84,7 @@ const CreateUnlockHash = () => {
 						</div>
 					</div>
 				) : (
-					<Button text="CREATE UNLOCK HASH" onClick={handleGenerateHash} />
+					<Button text="CREATE UNLOCK HASH" onClick={handleGenerateHash} disabled={loading} />
 				)}
 			</div>
 		</div>

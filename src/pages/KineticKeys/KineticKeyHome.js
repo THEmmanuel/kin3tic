@@ -12,18 +12,22 @@ const KineticKeyHome = () => {
 	const [paymentModal, setPaymentModal] = useState(false);
 	const [result, setResult] = useState(null);
 	const [error, setError] = useState(null);
+	const [loading, setLoading] = useState(false);
 
 	// Function to check if keyValue is a valid number
 	const isNumeric = (value) => /^\d+(\.\d+)?$/.test(value);
 
 	const createKey = async () => {
-		console.log('duhdjsdjsdjsds sjhds ')
+		console.log('duhdjsdjsdjsds sjhds ');
 		try {
 			setError(null);
+			setLoading(true);
 			const response = await axios.post(`${API_URL}/kinetic-keys/create`, { data: keyValue, UH: unlockHash });
 			setResult(response.data.voucherCode);
 		} catch (error) {
 			setError(error.response?.data?.error || "Failed to create key");
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -71,16 +75,14 @@ const KineticKeyHome = () => {
 							/>
 						</div>
 
+						{error && <span className={style.Error}>{error}</span>}
+						{loading && <span className={style.Loading}>Loading...</span>}
+
 						{result ? (
 							<div className={style.ResultWrapper}>
 								<div className={style.Results}>
-									<span className={style.Result}>
-										KEY:
-									</span>
-
-									<span className={style.ResultText}>
-										{result}
-									</span>
+									<span className={style.Result}>KEY:</span>
+									<span className={style.ResultText}>{result}</span>
 								</div>
 								<Button text="COPY" onClick={handleCopy} />
 							</div>
@@ -88,6 +90,7 @@ const KineticKeyHome = () => {
 							<Button
 								text={isNumeric(keyValue) ? `PAY NGN ${keyValue}` : "CREATE KEY"}
 								onClick={DecodeKey}
+								disabled={loading}
 							/>
 						)}
 					</div>
