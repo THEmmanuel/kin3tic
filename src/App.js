@@ -13,7 +13,11 @@ import {
 import Home from './Home'
 import KineticKeyHome from './pages/KineticKeys/KineticKeyHome'
 import DecodeKey from './pages/DecodeKey/DecodeKey';
+import EncodeKey from './pages/EncodeKey/EncodeKey';
 import CreateUnlockHash from './pages/CreateUnlockHash/CreateUnlockHash';
+import CategoryHome from './pages/CategoryHome/CategoryHome';
+import KineticKeyScanner from './pages/KineticKeyScanner/KineticKeyScanner';
+import UnlockHashScanner from './pages/UnlockHashScanner/UnlockHashScanner';
 
 
 function App() {
@@ -36,7 +40,13 @@ function App() {
 					<Route
 						exact
 						path='/encode-kinetic-key'
-						element={<KineticKeyHome />}
+						element={<EncodeKey />}
+					/>
+
+					<Route
+						exact
+						path='/category-home'
+						element={<CategoryHome />}
 					/>
 
 					<Route
@@ -49,6 +59,18 @@ function App() {
 						exact
 						path='/create-unlock-hash'
 						element={<CreateUnlockHash />}
+					/>
+
+					<Route
+						exact
+						path='/unlock-hash-scanner'
+						element={<UnlockHashScanner />}
+					/>
+
+					<Route
+						exact
+						path='/kinetic-key-scanner'
+						element={<KineticKeyScanner />}
 					/>
 				</Routes>
 			</div>

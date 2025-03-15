@@ -1,0 +1,22 @@
+.HomeCategoryWrapper{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 40px;
+	flex-direction: column
+}
+
+.Home{
+	display: flex;
+	flex-direction: column;
+	gap: 60px;
+	margin-top: 40px;
+}
+
+.HomeWrapper{
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	max-width: 540px;
+	margin: auto;
+}
