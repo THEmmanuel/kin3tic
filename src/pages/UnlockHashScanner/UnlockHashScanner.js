@@ -24,8 +24,8 @@ const UnlockHashScanner = () => {
 	return (
 		<div className={style.KineticKeyScannerWrapper}>
 			<div className={style.KineticKeyScannerHeading}>
-				<span>KINETIC KEY SCANNER</span>
-				<span>VIEW ALL GENERATED KEYS</span>
+				<span>UNLOCK HASH SCANNER</span>
+				<span>VIEW ALL GENERATED UNLOCK HASHES</span>
 			</div>
 
 			<div className={style.tableContainer}>
