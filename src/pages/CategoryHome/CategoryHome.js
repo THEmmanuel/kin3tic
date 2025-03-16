@@ -5,6 +5,8 @@ import addIcon from '../../assets/addIcon.svg';
 import encodeIcon from '../../assets/lockIcon.svg'
 import decodeIcon from '../../assets/unlockIcon.svg'
 import scanIcon from '../../assets/scanIcon.svg'
+import { Link } from 'react-router-dom';
+
 
 const Home = () => {
 	return (
@@ -18,30 +20,41 @@ const Home = () => {
 			</div>
 
 			<div className={style.HomeCategoryWrapper}>
-				<ActionButton
-					icon={addIcon}
-					text='CREATE UNLOCK HASH'
-				/>
 
-				<ActionButton
-					icon={encodeIcon}
-					text='ENCODE KINETIC KEY'
-				/>
+				<Link to='/create-unlock-hash'>
+					<ActionButton
+						icon={addIcon}
+						text='CREATE UNLOCK HASH'
+					/>
+				</Link>
 
-				<ActionButton
-					icon={decodeIcon}
-					text='DECODE KINETIC KEY'
-				/>
+				<Link to='/encode-kinetic-key'>
+					<ActionButton
+						icon={encodeIcon}
+						text='ENCODE KINETIC KEY'
+					/>
+				</Link>
 
-				<ActionButton
-					icon = {scanIcon}
-					text='KINETIC KEY SCANNER'
-				/>
+				<Link to='/decode-kinetic-key'>
+					<ActionButton
+						icon={decodeIcon}
+						text='DECODE KINETIC KEY'
+					/>
+				</Link>
 
-				<ActionButton
-					icon = {scanIcon}
-					text='UNLOCK HASH SCANNER'
-				/>
+				<Link to='/kinetic-key-scanner'>
+					<ActionButton
+						icon={scanIcon}
+						text='KINETIC KEY SCANNER'
+					/>
+				</Link>
+
+				<Link to='/unlock-hash-scanner'>
+					<ActionButton
+						icon={scanIcon}
+						text='UNLOCK HASH SCANNER'
+					/>
+				</Link>
 			</div>
 		</div>
 	);
