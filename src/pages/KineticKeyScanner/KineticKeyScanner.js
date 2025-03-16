@@ -38,13 +38,25 @@ const KineticKeyScanner = () => {
 							<th>Created At</th>
 						</tr>
 					</thead>
+
 					<tbody>
 						{keys.map((key) => (
 							<tr key={key._id}>
-								<td>{truncateString(key.keyToken)}</td>
-								<td>{truncateString(key.keyUnlockHash)}</td>
-								<td>{key.isDecrypted ? 'true' : 'false'}</td>
-								<td>{new Date(key.timestamp).toLocaleString()}</td>
+								<td>
+									{truncateString(key.keyToken)}
+								</td>
+
+								<td>
+									{truncateString(key.keyUnlockHash)}
+								</td>
+
+								<td>
+									{key.isDecrypted ? 'true' : 'false'}
+								</td>
+
+								<td>
+									{new Date(key.timestamp).toLocaleString()}
+								</td>
 							</tr>
 						))}
 					</tbody>
