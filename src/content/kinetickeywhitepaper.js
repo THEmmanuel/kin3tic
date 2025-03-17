@@ -210,20 +210,9 @@ Where Kyber and Dilithium are quantum-resistant algorithms based on the hardness
 | Operation | Time Complexity | Space Complexity |
 |-----------|-----------------|------------------|
 | Unlock Hash Generation | O(1) | O(m) where m = memory parameter |
-| Voucher Creation | O(|D|) | O(|D|) |
+| Voucher Creation | O(n) | O(n) |
 | Verification | O(1) | O(m) |
-| Decryption | O(|D|) | O(|D|) |
-
-### 5.2 Benchmarks
-
-Performance benchmarks conducted on standard hardware (Intel i7-10700K, 32GB RAM):
-
-| Operation | Kinetic Keys | Traditional ZKP | RSA-2048 | Blockchain TX |
-|-----------|--------------|-----------------|-----------|---------------|
-| Setup Time | 350 ms | 8-45 seconds | 125 ms | N/A |
-| Verification Time | 355 ms | 5-30 seconds | 8 ms | 10+ minutes |
-| Proof Size | 1.2 KB | 288 KB - 1 MB | 256 bytes | N/A |
-| Memory Usage | 64 MB | 2-8 GB | 1 MB | N/A |
+| Decryption | O(n) | O(n) |
 
 ### 5.3 Comparison to Alternative Technologies
 
