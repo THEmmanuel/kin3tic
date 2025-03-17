@@ -129,10 +129,6 @@ Kinetic Keys presents a groundbreaking approach to decentralized, privacy-preser
 - Development of an open-source API for broader integration.
 - Further formal verification of security guarantees.
 
-## References
-
-(To be added based on cryptographic literature and foundational research.)
-
 
 #### Author: Emmanuel Ayodele Bello. Publish Date: 17th, March 2025.
 `
