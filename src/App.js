@@ -18,6 +18,7 @@ import CreateUnlockHash from './pages/CreateUnlockHash/CreateUnlockHash';
 import CategoryHome from './pages/CategoryHome/CategoryHome';
 import KineticKeyScanner from './pages/KineticKeyScanner/KineticKeyScanner';
 import UnlockHashScanner from './pages/UnlockHashScanner/UnlockHashScanner';
+import KineticKeysWhitepaper from './pages/KineticKeysWhitepaper/KineticKeysWhitepaper';
 
 
 function App() {
@@ -71,6 +72,12 @@ function App() {
 						exact
 						path='/kinetic-key-scanner'
 						element={<KineticKeyScanner />}
+					/>
+
+					<Route
+						exact
+						path='/kinetic-keys-whitepaper'
+						element={<KineticKeysWhitepaper />}
 					/>
 				</Routes>
 			</div>
