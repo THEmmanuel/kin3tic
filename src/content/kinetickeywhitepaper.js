@@ -312,46 +312,6 @@ Kinetic Keys enables numerous applications across various domains:
 | Salt Length | 16 bytes | Prevents rainbow table attacks |
 | Base62 Hash Length | 15 chars | ~89 bits of entropy, sufficient for verification |
 
-### 7.2 Reference Implementation
-
-\`\`\`javascript
-import { randomBytes, createHmac } from 'crypto';
-import { argon2id } from 'argon2';
-import { AES_GCM_encrypt } from './crypto-utils'; // Assuming you have this function
-
-// Key generation implementation
-async function generateKineticKey(data, passphrase) {
-    // Generate the Unlock Hash
-    const salt = randomBytes(16);
-    const UH = await argon2id({ pass: passphrase, salt, time: 3, mem: 65536, parallelism: 2 });
-
-    // Generate one-time encryption key
-    const EK = randomBytes(32);
-
-    // Encrypt the data with the one-time key
-    const { C, IV_C, T_C } = AES_GCM_encrypt(data, EK);
-
-    // Derive master key
-    const MK = createHmac('sha256', SYSTEM_KEY).update(UH).digest();
-
-    // Encrypt the one-time key
-    const { EK_C, IV_EK, T_EK } = AES_GCM_encrypt(EK, MK);
-
-    // Assemble and shuffle the voucher components
-    const voucher = shuffle({
-        ciphertext: C, 
-        iv: IV_C, 
-        tag: T_C,
-        encryptedKey: EK_C,
-        keyIv: IV_EK,
-        keyTag: T_EK,
-        salt: salt.toString('hex')
-    });
-
-    return Buffer.from(JSON.stringify(voucher)).toString('base64');
-}
-\`\`\`
-
 ## 8. Future Research Directions
 
 1. **Threshold Kinetic Keys**: Implementing Shamir's Secret Sharing for distributed trust:
