@@ -1,4 +1,4 @@
-const KineticKeysWhitepaperText = `# Kinetic Keys: A Lightweight Zero-Knowledge Framework for Secure Digital Transactions
+# Kinetic Keys: A Lightweight Zero-Knowledge Framework for Secure Digital Transactions
 
 ## Abstract
 
@@ -395,9 +395,3 @@ As digital privacy becomes increasingly crucial, Kinetic Keys offers a valuable 
 7. Bernstein, D. J., & Lange, T. (2017). Post-Quantum Cryptography. Nature, 549(7671), 188-194.
 
 8. Goldwasser, S., Micali, S., & Rackoff, C. (1989). The Knowledge Complexity of Interactive Proof Systems. SIAM Journal on Computing, 18(1), 186-208.
-
-- Author: Emmanuel A. Bello
-- Date: March 17, 2025`;
-;
-
-export default KineticKeysWhitepaperText;
