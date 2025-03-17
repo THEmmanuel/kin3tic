@@ -210,9 +210,9 @@ Where Kyber and Dilithium are quantum-resistant algorithms based on the hardness
 | Operation | Time Complexity | Space Complexity |
 |-----------|-----------------|------------------|
 | Unlock Hash Generation | O(1) | O(m) where m = memory parameter |
-| Voucher Creation | O(n) | O(n) |
+| Voucher Creation | O(D) | O(D) |
 | Verification | O(1) | O(m) |
-| Decryption | O(n) | O(n) |
+| Decryption | O(D) | O(D) |
 
 ### 5.3 Comparison to Alternative Technologies
 
