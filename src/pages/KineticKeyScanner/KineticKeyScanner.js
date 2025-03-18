@@ -28,7 +28,7 @@ const KineticKeyScanner = () => {
 				<span>VIEW ALL GENERATED KEYS</span>
 			</div>
 
-			<div className={style.tableContainer}>
+			<div className='table-container'>
 				<table className={style.table}>
 					<thead>
 						<tr>

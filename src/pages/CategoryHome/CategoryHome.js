@@ -5,6 +5,7 @@ import addIcon from '../../assets/addIcon.svg';
 import encodeIcon from '../../assets/lockIcon.svg'
 import decodeIcon from '../../assets/unlockIcon.svg'
 import scanIcon from '../../assets/scanIcon.svg'
+import paperIcon from '../../assets/paperIcon.svg'
 import { Link } from 'react-router-dom';
 
 
@@ -55,6 +56,18 @@ const Home = () => {
 						text='UNLOCK HASH SCANNER'
 					/>
 				</Link>
+
+				<a
+					href="https://emmanuels-organization-21.gitbook.io/kinetic/kinetic-keys-a-lightweight-zero-knowledge-framework-for-secure-digital-transactions"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					<ActionButton
+						icon={paperIcon}
+						text="WHITEPAPER [EXT LINK]"
+					/>
+				</a>
+
 			</div>
 		</div>
 	);
