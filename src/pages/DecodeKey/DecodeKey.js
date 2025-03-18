@@ -98,15 +98,15 @@ const DecodeKey = () => {
 			{decodedData && (
 				<div className={style.DecodeKeyData}>
 					<span>Decrypted Data: {decodedData.decryptedData}</span>
-					{isValidNumber(decodedData.decryptedData) ? (
+					{/* {isValidNumber(decodedData.decryptedData) ? (
 						<div>
 							<span>This key makes you eligible for a payout of:</span>
 							<h3>N{Number(decodedData.decryptedData).toLocaleString()}</h3>
 							<Button text={`PAYOUT N${Number(decodedData.decryptedData).toLocaleString()}`} onClick={() => alert("Payout initiated!")} />
 						</div>
 					) : (
-						<Button text="REFRESH" onClick={resetState} />
-					)}
+					)} */}
+					<Button text="REFRESH" onClick={resetState} />
 				</div>
 			)}
 

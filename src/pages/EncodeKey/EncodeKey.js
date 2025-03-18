@@ -40,11 +40,12 @@ const EncodeKey = () => {
 	};
 
 	const DecodeKey = () => {
-		if (isNumeric(keyValue)) {
-			setPaymentModal(true);
-		} else {
-			createKey();
-		}
+		// if (isNumeric(keyValue)) {
+		// 	setPaymentModal(true);
+		// } else {
+		// 	createKey();
+		// }
+		createKey();
 	};
 
 	return (
