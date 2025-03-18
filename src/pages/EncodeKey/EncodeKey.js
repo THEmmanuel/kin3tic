@@ -90,7 +90,8 @@ const EncodeKey = () => {
 							</div>
 						) : (
 							<Button
-								text={isNumeric(keyValue) ? `PAY NGN ${keyValue}` : "CREATE KEY"}
+								// text={isNumeric(keyValue) ? `PAY NGN ${keyValue}` : "CREATE KEY"}
+								text="CREATE KEY"
 								onClick={DecodeKey}
 								disabled={loading}
 							/>
