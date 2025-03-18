@@ -46,7 +46,7 @@ function App() {
 
 					<Route
 						exact
-						path='/category-home'
+						path='/categories'
 						element={<CategoryHome />}
 					/>
 
