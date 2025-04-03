@@ -1,0 +1,34 @@
+.NullWalletHomeBalance{
+	display: flex;
+	flex-direction: column;
+}
+
+.NullWalletHome{
+	display: flex;
+	flex-direction: column;
+	gap: 50px;
+}
+
+.NullWalletHomeAssets{
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	margin-bottom: 40px;
+}
+
+.NullWalletHomeHeaderSub{
+	display: flex;
+	flex-direction: column;
+}
+
+.NullWalletHomeHeader{
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.NullWalletHomeButtons{
+	display: flex;
+	flex-direction: column;
+	gap: 25px;
+}

@@ -1,0 +1,16 @@
+.NullStartPage{
+	display: flex;
+	flex-direction: column;
+	gap: 120px;
+}
+
+.NullStartPageButtons{
+	display: flex;
+	flex-direction: column;
+	gap: 25px;
+}
+
+.NullStartPageHeader{
+	display: flex;
+	flex-direction: column;
+}
