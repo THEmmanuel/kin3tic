@@ -37,39 +37,26 @@ import { saveSession, getSession, clearSession } from '../src/utils/sessionDB';
 function App() {
 	const API_URL = process.env.REACT_APP_BACKEND_API;
 	const [user, setUser] = useState(null);
+	const [mainHash, setMainHash] = useState(null);
 	const [error, setError] = useState(null);
-	const mainHash = '';
 
 	useEffect(() => {
 		const initSession = async () => {
 			const session = await getSession();
 
-			// Check if the session exists and is valid
-			if (!session || Date.now() > session.expiresAt) {
-				console.log('Session expired or missing. Creating a new one...');
-
-				// Save a new session if it's missing or expired
-				await saveSession({
-					mainhash: '826e48796d3710dbe92153441f6575ea.EnlvJIdcFTQY1YS',
-					expiresAt: Date.now() + 2 * 60 * 60 * 1000 // 2 hours
-				});
-
-				// Re-fetch the session after saving
-				const newSession = await getSession();
-				if (newSession) {
-					console.log('New session:', newSession);
-					fetchUser(newSession);
-				}
+			if (session && session.mainhash && Date.now() < session.expiresAt) {
+				console.log('Valid session found:', session);
+				setMainHash(session.mainhash);
+				fetchUser(session.mainhash);
 			} else {
-				console.log('Valid session:', session);
-				fetchUser(session);
+				console.log('No valid session');
 			}
 		};
 
-		const fetchUser = async (session) => {
+		const fetchUser = async (mainhash) => {
 			try {
 				const res = await axios.post(`${API_URL}/users/by`, {
-					MainHash: session.mainhash
+					MainHash: mainhash
 				});
 				setUser(res.data);
 			} catch (err) {
