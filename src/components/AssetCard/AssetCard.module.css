@@ -1,0 +1,10 @@
+.AssetCardWrapper{
+	display: flex;
+	flex-direction: row;
+	margin: auto;
+	/* width: 15%; */
+	justify-content: space-around;
+	border: 1px solid #FFF;
+	padding: 25px;
+	max-width: 1000px;
+}

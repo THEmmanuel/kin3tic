@@ -4,6 +4,17 @@ body {
 	font-family: "Space Mono", monospace;
 }
 
+.MainHeading {
+	font-size: 1.5em;
+	text-align: center;
+	margin-top: 20px;
+}
+
+.SubHeading {
+	font-size: 1.4em;
+	text-align: center;
+}
+
 .space-mono-regular {
 	font-weight: 400;
 	font-style: normal;
@@ -28,5 +39,5 @@ body {
 }
 
 mjx-container {
-    color: white;
+	color: white;
 }

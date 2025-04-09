@@ -7,18 +7,35 @@ const CreateNewWalletPage = () => {
 	return (
 		<div>
 			<div>
-				<Input
-					label="PASSPHRASE"
-				/>
+				<div>
+					<Input
+						label="PASSPHRASE"
+					/>
 
-				<Input
-					label="RE-ENTER PASSPHRASE"
-				/>
+					<Input
+						label="RE-ENTER PASSPHRASE"
+					/>
+				</div>
 			</div>
 
 			<Button
 				text="PROCEED"
 			/>
+
+			<div>
+				<div>
+					UNLOCK HASH
+					<Button
+						text="COPY"
+					/>
+				</div>
+
+				<span>
+					USE YOUR UNLOCK HASH AND PASSPHRASE TO UNLOCK YOUR WALLET.
+
+					PLEASE KEEP IT SAFE.
+				</span>
+			</div>
 		</div>
 	)
 }

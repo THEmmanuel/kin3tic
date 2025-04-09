@@ -8,7 +8,8 @@ import {
 	// Link,
 	// useLocation
 } from 'react-router-dom';
-
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 import Home from './Home'
 import KineticKeyHome from './pages/KineticKeys/KineticKeyHome'
@@ -19,97 +20,140 @@ import CategoryHome from './pages/CategoryHome/CategoryHome';
 import KineticKeyScanner from './pages/KineticKeyScanner/KineticKeyScanner';
 import UnlockHashScanner from './pages/UnlockHashScanner/UnlockHashScanner';
 import KineticKeysWhitepaper from './pages/KineticKeysWhitepaper/KineticKeysWhitepaper';
-
+import SendAsset from './NullWallet/SendAsset/SendAsset';
 
 import CreateNewWallet from './NullWallet/CreateNewWallet/CreateNewWallet';
 import NullStartPage from './NullWallet/StartPage/StartPage';
 import NullWalletHome from './NullWallet/NullWalletHome/NullWalletHome';
 import NullAsset from './NullWallet/NullAsset/NullAsset';
+import ImportWallet from './NullWallet/ImportWallet/ImportWallet';
+import { UserContext } from './context/UserContext';
+import BuyAsset from './NullWallet/BuyAsset/BuyAsset';
+
 
 function App() {
+	const API_URL = process.env.REACT_APP_BACKEND_API;
+	const [user, setUser] = useState(null);
+	const [error, setError] = useState(null);
+	const mainHash = '826e48796d3710dbe92153441f6575ea.EnlvJIdcFTQY1YS';
+
+	useEffect(() => {
+		const fetchUser = async () => {
+			try {
+				const res = await axios.post(`${API_URL}/users/by`, { MainHash: mainHash });
+				setUser(res.data);
+			} catch (err) {
+				setError(err.response?.data?.message || 'Request failed');
+				console.error(err);
+			}
+		};
+
+		fetchUser();
+	}, [mainHash]);
+
 	return (
 		<Router>
-			<div className="App">
-				<Routes>
-					<Route
-						exact
-						path='/'
-						element={<Home />}
-					/>
+			<UserContext.Provider value={{ mainHash, user, setUser }}>
+				<div className="App">
+					<Routes>
+						<Route
+							exact
+							path='/'
+							element={<Home />}
+						/>
 
-					<Route
-						exact
-						path='/home'
-						element={<Home />}
-					/>
+						<Route
+							exact
+							path='/home'
+							element={<Home />}
+						/>
 
-					<Route
-						exact
-						path='/encode-kinetic-key'
-						element={<EncodeKey />}
-					/>
+						<Route
+							exact
+							path='/encode-kinetic-key'
+							element={<EncodeKey />}
+						/>
 
-					<Route
-						exact
-						path='/categories'
-						element={<CategoryHome />}
-					/>
+						<Route
+							exact
+							path='/categories'
+							element={<CategoryHome />}
+						/>
 
-					<Route
-						exact
-						path='/decode-kinetic-key'
-						element={<DecodeKey />}
-					/>
+						<Route
+							exact
+							path='/decode-kinetic-key'
+							element={<DecodeKey />}
+						/>
 
-					<Route
-						exact
-						path='/create-unlock-hash'
-						element={<CreateUnlockHash />}
-					/>
+						<Route
+							exact
+							path='/create-unlock-hash'
+							element={<CreateUnlockHash />}
+						/>
 
-					<Route
-						exact
-						path='/unlock-hash-scanner'
-						element={<UnlockHashScanner />}
-					/>
+						<Route
+							exact
+							path='/unlock-hash-scanner'
+							element={<UnlockHashScanner />}
+						/>
 
-					<Route
-						exact
-						path='/kinetic-key-scanner'
-						element={<KineticKeyScanner />}
-					/>
+						<Route
+							exact
+							path='/kinetic-key-scanner'
+							element={<KineticKeyScanner />}
+						/>
 
-					<Route
-						exact
-						path='/kinetic-keys-whitepaper'
-						element={<KineticKeysWhitepaper />}
-					/>
+						<Route
+							exact
+							path='/kinetic-keys-whitepaper'
+							element={<KineticKeysWhitepaper />}
+						/>
 
-					<Route
-						exact
-						path='/NullWallet/Start'
-						element={<NullStartPage />}
-					/>
+						<Route
+							exact
+							path='/NullWallet/Start'
+							element={<NullStartPage />}
+						/>
 
-					<Route
-						exact
-						path='/NullWallet/Create'
-						element={<CreateNewWallet />}
-					/>
+						<Route
+							exact
+							path='/NullWallet/Create'
+							element={<CreateNewWallet />}
+						/>
 
-					<Route
-						exact
-						path='/NullWallet/Asset'
-						element={<NullAsset />}
-					/>
+						<Route
+							exact
+							path='/NullWallet/Asset/:id/:assetSymbol'
+							element={<NullAsset />}
+						/>
 
-					<Route
-						exact
-						path='/NullWallet/Home'
-						element={<NullWalletHome />}
-					/>
-				</Routes>
-			</div>
+						<Route
+							exact
+							path='/NullWallet/SendAsset/:id/:assetSymbol'
+							element={<SendAsset />}
+						/>
+
+						<Route
+							exact
+							path='/NullWallet/BuyAsset/:id/:assetSymbol'
+							element={<BuyAsset />}
+						/>
+
+						<Route
+							exact
+							path='/NullWallet/Import'
+							element={<ImportWallet />}
+						/>
+
+						<Route
+							exact
+							path='/NullWallet/Home'
+							element={<NullWalletHome />}
+						/>
+					</Routes>
+				</div>
+			</UserContext.Provider>
 		</Router>
 	);
 }

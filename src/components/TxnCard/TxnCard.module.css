@@ -1,0 +1,6 @@
+.TxnCardWrapper{
+	display: flex;
+	flex-direction: row;
+	gap: 20px;
+	margin: auto;
+}
