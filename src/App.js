@@ -30,17 +30,47 @@ import ImportWallet from './NullWallet/ImportWallet/ImportWallet';
 import { UserContext } from './context/UserContext';
 import BuyAsset from './NullWallet/BuyAsset/BuyAsset';
 
+import { saveSession, getSession, clearSession } from '../src/utils/sessionDB';
+
+
 
 function App() {
 	const API_URL = process.env.REACT_APP_BACKEND_API;
 	const [user, setUser] = useState(null);
 	const [error, setError] = useState(null);
-	const mainHash = '826e48796d3710dbe92153441f6575ea.EnlvJIdcFTQY1YS';
+	const mainHash = '';
 
 	useEffect(() => {
-		const fetchUser = async () => {
+		const initSession = async () => {
+			const session = await getSession();
+
+			// Check if the session exists and is valid
+			if (!session || Date.now() > session.expiresAt) {
+				console.log('Session expired or missing. Creating a new one...');
+
+				// Save a new session if it's missing or expired
+				await saveSession({
+					mainhash: '826e48796d3710dbe92153441f6575ea.EnlvJIdcFTQY1YS',
+					expiresAt: Date.now() + 2 * 60 * 60 * 1000 // 2 hours
+				});
+
+				// Re-fetch the session after saving
+				const newSession = await getSession();
+				if (newSession) {
+					console.log('New session:', newSession);
+					fetchUser(newSession);
+				}
+			} else {
+				console.log('Valid session:', session);
+				fetchUser(session);
+			}
+		};
+
+		const fetchUser = async (session) => {
 			try {
-				const res = await axios.post(`${API_URL}/users/by`, { MainHash: mainHash });
+				const res = await axios.post(`${API_URL}/users/by`, {
+					MainHash: session.mainhash
+				});
 				setUser(res.data);
 			} catch (err) {
 				setError(err.response?.data?.message || 'Request failed');
@@ -48,8 +78,8 @@ function App() {
 			}
 		};
 
-		fetchUser();
-	}, [mainHash]);
+		initSession();
+	}, [API_URL]);
 
 	return (
 		<Router>
