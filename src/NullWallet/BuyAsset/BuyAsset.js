@@ -88,24 +88,26 @@ const BuyAsset = () => {
 			<div>
 				<h2>BUY {assetSymbol}</h2>
 
-				<Input
-					label={`${assetSymbol} AMOUNT`}
-					value={assetUnits}
-					onChange={(e) => setAssetUnits(e.target.value)}
-				/>
+				<div className={style.BuyAssetInput}>
+					<Input
+						label={`${assetSymbol} AMOUNT`}
+						value={assetUnits}
+						onChange={(e) => setAssetUnits(e.target.value)}
+					/>
 
-				<Input
-					label="USD AMOUNT"
-					value={amountUSD}
-					onChange={(e) => setAmountUSD(e.target.value)}
-				/>
+					<Input
+						label="USD AMOUNT"
+						value={amountUSD}
+						onChange={(e) => setAmountUSD(e.target.value)}
+					/>
 
-				<Input
-					label="PIN"
-					type="password"
-					value={pin}
-					onChange={(e) => setPin(e.target.value)}
-				/>
+					<Input
+						label="PIN"
+						type="password"
+						value={pin}
+						onChange={(e) => setPin(e.target.value)}
+					/>
+				</div>
 
 				{assetPrice && (
 					<div style={{ marginTop: '1rem', fontSize: '0.9rem' }}>

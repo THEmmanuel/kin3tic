@@ -52,7 +52,7 @@ const ImportWallet = () => {
 
 	return (
 		<div className={style.ImportWallet}>
-			<div>
+			<div className={style.ImportWalletInput}>
 				<Input
 					label="UNLOCK HASH"
 					value={unlockHash}
