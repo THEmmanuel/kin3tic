@@ -1,0 +1,13 @@
+.NullWalletActionButton{
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.NullWalletActionImage{
+	height: 25px;
+}
+
+.NullWalletActionText{
+	font-size: 0.8em;
+}

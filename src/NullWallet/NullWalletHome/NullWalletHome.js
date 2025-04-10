@@ -120,8 +120,13 @@ const NullWalletHome = () => {
 			</div>
 
 			<div className={style.NullWalletHomeButtons}>
-				<Button text='IMPORT NEW' />
-				<Button text='CREATE NEW' />
+				<Link to={`/NullWallet/Import`}>
+					<Button text='IMPORT NEW' />
+				</Link>
+
+				<Link to={`/NullWallet/Create`}>
+					<Button text='CREATE NEW' />
+				</Link>
 			</div>
 		</div>
 	);

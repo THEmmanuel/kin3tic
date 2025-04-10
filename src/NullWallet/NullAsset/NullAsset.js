@@ -6,6 +6,9 @@ import recieveIcon from '../../assets/recieveIcon.svg';
 import plusIcon from '../../assets/plusIcon.svg';
 import TxnCard from '../../components/TxnCard/TxnCard';
 import { UserContext } from '../../context/UserContext';
+import AssetActionButton from '../../components/AssetActionButton/AssetActionButton';
+
+import { Link } from 'react-router-dom';
 
 const NullAsset = () => {
 	const { assetSymbol } = useParams();
@@ -45,18 +48,29 @@ const NullAsset = () => {
 			</div>
 
 			<div className={style.NullWalletActions}>
-				<div className={style.NullWalletActionButton}>
-					<img src={sendIcon} alt="" className={style.NullWalletActionImage} />
-					<span>SEND {assetSymbol}</span>
-				</div>
-				<div className={style.NullWalletActionButton}>
-					<img src={recieveIcon} alt="" className={style.NullWalletActionImage} />
-					<span>RECEIVE {assetSymbol}</span>
-				</div>
-				<div className={style.NullWalletActionButton}>
-					<img src={plusIcon} alt="" className={style.NullWalletActionImage} />
-					<span>BUY {assetSymbol}</span>
-				</div>
+				<Link to={`/NullWallet/SendAsset/${user._id}/${assetSymbol}`}>
+					<AssetActionButton
+						Icon={sendIcon}
+						Action='SEND'
+						assetSymbol={assetSymbol}
+					/>
+				</Link>
+
+				{/* <Link to={`/NullWallet/SendAsset/${user._id}/${assetSymbol}`}> */}
+				<AssetActionButton
+					Icon={recieveIcon}
+					Action='RECIEVE'
+					assetSymbol={assetSymbol}
+				/>
+				{/* </Link> */}
+
+				<Link to={`/NullWallet/BuyAsset/${user._id}/${assetSymbol}`}>
+					<AssetActionButton
+						Icon={plusIcon}
+						Action='BUY'
+						assetSymbol={assetSymbol}
+					/>
+				</Link>
 			</div>
 
 			<div>

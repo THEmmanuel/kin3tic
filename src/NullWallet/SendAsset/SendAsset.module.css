@@ -1,0 +1,14 @@
+.SendAsset {
+	max-width: 1000px;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 35px;
+}
+
+.SendAssetInput{
+	display: flex;
+	flex-direction: column;
+	gap: 50px;
+	margin-bottom: 50px;
+}

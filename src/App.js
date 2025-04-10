@@ -40,6 +40,18 @@ function App() {
 	const [mainHash, setMainHash] = useState(null);
 	const [error, setError] = useState(null);
 
+	const fetchUser = async (mainhash) => {
+		try {
+			const res = await axios.post(`${API_URL}/users/by`, {
+				MainHash: mainhash
+			});
+			setUser(res.data);
+		} catch (err) {
+			setError(err.response?.data?.message || 'Request failed');
+			console.error(err);
+		}
+	};
+
 	useEffect(() => {
 		const initSession = async () => {
 			const session = await getSession();
@@ -53,24 +65,12 @@ function App() {
 			}
 		};
 
-		const fetchUser = async (mainhash) => {
-			try {
-				const res = await axios.post(`${API_URL}/users/by`, {
-					MainHash: mainhash
-				});
-				setUser(res.data);
-			} catch (err) {
-				setError(err.response?.data?.message || 'Request failed');
-				console.error(err);
-			}
-		};
-
 		initSession();
-	}, [API_URL]);
+	}, []);
 
 	return (
 		<Router>
-			<UserContext.Provider value={{ mainHash, user, setUser }}>
+			<UserContext.Provider value={{ mainHash, user, setUser, refetchUser: () => fetchUser(mainHash) }}>
 				<div className="App">
 					<Routes>
 						<Route
