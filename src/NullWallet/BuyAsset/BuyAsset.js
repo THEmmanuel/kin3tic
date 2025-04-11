@@ -19,6 +19,8 @@ const BuyAsset = () => {
 	const [assetPrice, setAssetPrice] = useState(null);
 	const [txData, setTxData] = useState(null);
 
+	const [lastEdited, setLastEdited] = useState(null); // 'usd' or 'units'
+
 	useEffect(() => {
 		const fetchPrice = async () => {
 			try {
@@ -29,23 +31,22 @@ const BuyAsset = () => {
 				console.error(err);
 			}
 		};
-
 		fetchPrice();
 	}, [assetSymbol, API_URL]);
 
 	useEffect(() => {
-		if (assetPrice && amountUSD !== '') {
-			const units = parseFloat(amountUSD) / assetPrice;
-			setAssetUnits(units ? units.toFixed(4) : '');
-		}
-	}, [amountUSD, assetPrice]);
+		if (!assetPrice) return;
 
-	useEffect(() => {
-		if (assetPrice && assetUnits !== '') {
-			const usd = parseFloat(assetUnits) * assetPrice;
-			setAmountUSD(usd ? usd.toFixed(2) : '');
+		if (lastEdited === 'usd' && amountUSD !== '') {
+			const units = parseFloat(amountUSD) / assetPrice;
+			setAssetUnits(isNaN(units) ? '' : units.toFixed(4));
 		}
-	}, [assetUnits, assetPrice]);
+
+		if (lastEdited === 'units' && assetUnits !== '') {
+			const usd = parseFloat(assetUnits) * assetPrice;
+			setAmountUSD(isNaN(usd) ? '' : usd.toFixed(2));
+		}
+	}, [amountUSD, assetUnits, assetPrice, lastEdited]);
 
 	const handleBuy = async () => {
 		if (!mainHash || !amountUSD || !pin) {
@@ -54,7 +55,7 @@ const BuyAsset = () => {
 		}
 
 		try {
-			setStatus('BUYING...');
+			setStatus('Processing...');
 			const res = await axios.post(`${API_URL}/assetx/buy-asset`, {
 				AssetToBuy: assetSymbol,
 				Amount: parseFloat(amountUSD),
@@ -65,11 +66,11 @@ const BuyAsset = () => {
 			});
 
 			if (res.data.success) {
-				setStatus('✅ PURCHASE COMPLETE');
+				setStatus('✅ Purchase complete');
 				setTxData(res.data.transaction);
 				refetchUser?.();
 			} else {
-				setStatus('❌ FAILED: ' + res.data.error);
+				setStatus(`❌ Failed: ${res.data.error}`);
 			}
 		} catch (err) {
 			setStatus(err.response?.data?.error || 'Request failed');
@@ -92,13 +93,19 @@ const BuyAsset = () => {
 					<Input
 						label={`${assetSymbol} AMOUNT`}
 						value={assetUnits}
-						onChange={(e) => setAssetUnits(e.target.value)}
+						onChange={(e) => {
+							setAssetUnits(e.target.value);
+							setLastEdited('units');
+						}}
 					/>
 
 					<Input
 						label="USD AMOUNT"
 						value={amountUSD}
-						onChange={(e) => setAmountUSD(e.target.value)}
+						onChange={(e) => {
+							setAmountUSD(e.target.value);
+							setLastEdited('usd');
+						}}
 					/>
 
 					<Input

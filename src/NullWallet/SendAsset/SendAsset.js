@@ -4,6 +4,8 @@ import { UserContext } from '../../context/UserContext';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import axios from 'axios';
+import { dateParser } from '../../utils/dateParser';
+
 
 import style from './SendAsset.module.css';
 
@@ -20,6 +22,7 @@ const SendAsset = () => {
 	const [status, setStatus] = useState('');
 	const [assetPrice, setAssetPrice] = useState(null);
 	const [txResult, setTxResult] = useState(null);
+	const [lastChanged, setLastChanged] = useState(null);
 
 	// Fetch current price of asset
 	useEffect(() => {
@@ -36,22 +39,22 @@ const SendAsset = () => {
 		fetchPrice();
 	}, [assetSymbol, API_URL]);
 
-	// Sync assetUnits when amountUSD changes
+	// Sync assetUnits or amountUSD based on what user edited last
 	useEffect(() => {
-		if (assetPrice && amountUSD !== '') {
+		if (!assetPrice) return;
+
+		if (lastChanged === 'usd' && amountUSD !== '') {
 			const units = parseFloat(amountUSD) / assetPrice;
-			setAssetUnits(units ? units.toFixed(4) : '');
+			if (!isNaN(units)) setAssetUnits(units.toFixed(4));
 		}
-	}, [amountUSD, assetPrice]);
 
-	// Sync amountUSD when assetUnits changes
-	useEffect(() => {
-		if (assetPrice && assetUnits !== '') {
+		if (lastChanged === 'units' && assetUnits !== '') {
 			const usd = parseFloat(assetUnits) * assetPrice;
-			setAmountUSD(usd ? usd.toFixed(2) : '');
+			if (!isNaN(usd)) setAmountUSD(usd.toFixed(2));
 		}
-	}, [assetUnits, assetPrice]);
+	}, [amountUSD, assetUnits, assetPrice, lastChanged]);
 
+	// Handle Send Action
 	const handleSend = async () => {
 		if (!mainHash || !amountUSD || !pin || !receiverHash) {
 			setStatus('Please fill in all fields');
@@ -82,6 +85,14 @@ const SendAsset = () => {
 		}
 	};
 
+	// Get user balance for this asset
+	const userBalance = user?.UserMetaData?.UserAssetsAndBalances?.find(
+		(a) => a.assetSymbol.toLowerCase() === assetSymbol.toLowerCase()
+	);
+	const displayBalance = userBalance
+		? `${userBalance.unitsAmount.toFixed(4)} ${assetSymbol}`
+		: `0.0000 ${assetSymbol}`;
+
 	return (
 		<div className={style.SendAsset}>
 			<div>
@@ -96,13 +107,22 @@ const SendAsset = () => {
 					<Input
 						label={`${assetSymbol} AMOUNT`}
 						value={assetUnits}
-						onChange={(e) => setAssetUnits(e.target.value)}
+						onChange={(e) => {
+							setAssetUnits(e.target.value);
+							setLastChanged('units');
+						}}
 					/>
+					<p style={{ fontSize: '0.9rem', color: '#777', marginTop: '-0.5rem' }}>
+						Balance: {displayBalance}
+					</p>
 
 					<Input
 						label="USD VALUE"
 						value={amountUSD}
-						onChange={(e) => setAmountUSD(e.target.value)}
+						onChange={(e) => {
+							setAmountUSD(e.target.value);
+							setLastChanged('usd');
+						}}
 					/>
 
 					<Input
@@ -146,7 +166,7 @@ const SendAsset = () => {
 					<p><strong>Asset Amount:</strong> {txResult.assetAmount}</p>
 					<p><strong>USD Value:</strong> ${txResult.totalValue}</p>
 					<p><strong>Fee:</strong> $0.00</p>
-					<p><strong>Timestamp:</strong> {new Date(txResult.createdAt).toLocaleString()}</p>
+					{/* <p><strong>Timestamp:</strong>{dateParser(txResult.createdAt)}</p> */}
 				</div>
 			)}
 		</div>
