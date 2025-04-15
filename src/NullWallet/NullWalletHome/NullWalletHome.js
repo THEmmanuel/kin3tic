@@ -50,14 +50,12 @@ const NullWalletHome = () => {
 
 	// 🔄 Merge user assets with market data
 	useEffect(() => {
-		if (
-			!isAssetsLoading &&
-			user &&
-			user.UserMetaData?.UserAssetsAndBalances?.length
-		) {
+		if (!isAssetsLoading && user) {
 			setIsUserLoading(true);
 
-			const merged = user.UserMetaData.UserAssetsAndBalances.map(userAsset => {
+			const userAssetList = user.UserMetaData?.UserAssetsAndBalances || [];
+
+			const merged = userAssetList.map(userAsset => {
 				const assetInfo = assets.find(a => a.assetSymbol === userAsset.assetSymbol);
 				const unitPrice = assetInfo?.assetPrice || userAsset.assetPrice || 0;
 				const assetName = assetInfo?.assetName || userAsset.assetSymbol;
@@ -80,6 +78,7 @@ const NullWalletHome = () => {
 			setIsUserLoading(false);
 		}
 	}, [user, assets, isAssetsLoading]);
+
 
 	return (
 		<div className={style.NullWalletHome}>
@@ -126,9 +125,11 @@ const NullWalletHome = () => {
 					))
 				) : (
 					<div className={style.Loader}>
-						<span>No assets found in your wallet.</span>
+						<span>Your wallet is ready but has no assets yet.</span>
+						<span>Share your mainHash to start receiving assets.</span>
 					</div>
 				)}
+
 			</div>
 
 			<div className={style.NullWalletHomeButtons}>
