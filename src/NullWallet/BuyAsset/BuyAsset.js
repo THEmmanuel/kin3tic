@@ -134,7 +134,7 @@ const BuyAsset = () => {
 				<div style={{ marginTop: '2rem', fontSize: '0.85rem' }}>
 					<h4>Transaction Details</h4>
 					<p><strong>ID:</strong> {txData._id}</p>
-					<p><strong>Timestamp:</strong> {new Date(txData.createdAt).toLocaleString()}</p>
+					{/* <p><strong>Timestamp:</strong> {new Date(txData.createdAt).toLocaleString()}</p> */}
 					<p><strong>Sender:</strong> {txData.sender}</p>
 					<p><strong>Receiver:</strong> {txData.receiver}</p>
 					<p><strong>Asset:</strong> {txData.assetSymbol}</p>
