@@ -31,6 +31,7 @@ import { UserContext } from './context/UserContext';
 import BuyAsset from './NullWallet/BuyAsset/BuyAsset';
 
 import { saveSession, getSession, clearSession } from '../src/utils/sessionDB';
+import SessionGuard from './utils/SessionGuard';
 
 
 
@@ -71,105 +72,107 @@ function App() {
 	return (
 		<Router>
 			<UserContext.Provider value={{ mainHash, user, setUser, refetchUser: () => fetchUser(mainHash) }}>
-				<div className="App">
-					<Routes>
-						<Route
-							exact
-							path='/'
-							element={<Home />}
-						/>
+				<SessionGuard setUser={setUser} setMainHash={setMainHash}>
+					<div className="App">
+						<Routes>
+							<Route
+								exact
+								path='/'
+								element={<Home />}
+							/>
 
-						<Route
-							exact
-							path='/home'
-							element={<Home />}
-						/>
+							<Route
+								exact
+								path='/home'
+								element={<Home />}
+							/>
 
-						<Route
-							exact
-							path='/encode-kinetic-key'
-							element={<EncodeKey />}
-						/>
+							<Route
+								exact
+								path='/encode-kinetic-key'
+								element={<EncodeKey />}
+							/>
 
-						<Route
-							exact
-							path='/categories'
-							element={<CategoryHome />}
-						/>
+							<Route
+								exact
+								path='/categories'
+								element={<CategoryHome />}
+							/>
 
-						<Route
-							exact
-							path='/decode-kinetic-key'
-							element={<DecodeKey />}
-						/>
+							<Route
+								exact
+								path='/decode-kinetic-key'
+								element={<DecodeKey />}
+							/>
 
-						<Route
-							exact
-							path='/create-unlock-hash'
-							element={<CreateUnlockHash />}
-						/>
+							<Route
+								exact
+								path='/create-unlock-hash'
+								element={<CreateUnlockHash />}
+							/>
 
-						<Route
-							exact
-							path='/unlock-hash-scanner'
-							element={<UnlockHashScanner />}
-						/>
+							<Route
+								exact
+								path='/unlock-hash-scanner'
+								element={<UnlockHashScanner />}
+							/>
 
-						<Route
-							exact
-							path='/kinetic-key-scanner'
-							element={<KineticKeyScanner />}
-						/>
+							<Route
+								exact
+								path='/kinetic-key-scanner'
+								element={<KineticKeyScanner />}
+							/>
 
-						<Route
-							exact
-							path='/kinetic-keys-whitepaper'
-							element={<KineticKeysWhitepaper />}
-						/>
+							<Route
+								exact
+								path='/kinetic-keys-whitepaper'
+								element={<KineticKeysWhitepaper />}
+							/>
 
-						<Route
-							exact
-							path='/NullWallet/Start'
-							element={<NullStartPage />}
-						/>
+							<Route
+								exact
+								path='/NullWallet/Start'
+								element={<NullStartPage />}
+							/>
 
-						<Route
-							exact
-							path='/NullWallet/Create'
-							element={<CreateNewWallet />}
-						/>
+							<Route
+								exact
+								path='/NullWallet/Create'
+								element={<CreateNewWallet />}
+							/>
 
-						<Route
-							exact
-							path='/NullWallet/Asset/:id/:assetSymbol'
-							element={<NullAsset />}
-						/>
+							<Route
+								exact
+								path='/NullWallet/Asset/:id/:assetSymbol'
+								element={<NullAsset />}
+							/>
 
-						<Route
-							exact
-							path='/NullWallet/SendAsset/:id/:assetSymbol'
-							element={<SendAsset />}
-						/>
+							<Route
+								exact
+								path='/NullWallet/SendAsset/:id/:assetSymbol'
+								element={<SendAsset />}
+							/>
 
-						<Route
-							exact
-							path='/NullWallet/BuyAsset/:id/:assetSymbol'
-							element={<BuyAsset />}
-						/>
+							<Route
+								exact
+								path='/NullWallet/BuyAsset/:id/:assetSymbol'
+								element={<BuyAsset />}
+							/>
 
-						<Route
-							exact
-							path='/NullWallet/Import'
-							element={<ImportWallet />}
-						/>
+							<Route
+								exact
+								path='/NullWallet/Import'
+								element={<ImportWallet />}
+							/>
 
-						<Route
-							exact
-							path='/NullWallet/Home'
-							element={<NullWalletHome />}
-						/>
-					</Routes>
-				</div>
+							<Route
+								exact
+								path='/NullWallet/Home'
+								element={<NullWalletHome />}
+							/>
+						</Routes>
+					</div>
+				</SessionGuard>
 			</UserContext.Provider>
 		</Router>
 	);

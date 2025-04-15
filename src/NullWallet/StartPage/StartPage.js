@@ -1,6 +1,7 @@
 import React from 'react';
 import style from './StartPage.module.css';
 import Button from '../../components/Button/Button';
+import { Link } from 'react-router-dom';
 
 const NullStartPage = () => {
 	return (
@@ -18,13 +19,17 @@ const NullStartPage = () => {
 
 
 			<div className={style.NullStartPageButtons}>
-				<Button
-					text="CREATE NEW WALLET"
-				/>
+				<Link to={`/NullWallet/Create`}>
+					<Button
+						text="CREATE NEW WALLET"
+					/>
+				</Link>
 
-				<Button
-					text="IMPORT AN EXISTING WALLET"
-				/>
+				<Link to={`/NullWallet/Import`}>
+					<Button
+						text="IMPORT AN EXISTING WALLET"
+					/>
+				</Link>
 			</div>
 		</div>
 	)
