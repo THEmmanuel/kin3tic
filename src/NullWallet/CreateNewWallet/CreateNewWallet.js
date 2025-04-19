@@ -75,6 +75,18 @@ const CreateNewWalletPage = () => {
 					value={confirmPassphrase}
 					onChange={(e) => setConfirmPassphrase(e.target.value)}
 				/>
+
+				<Input
+					label="PIN"
+					value={confirmPassphrase}
+					onChange={(e) => setConfirmPassphrase(e.target.value)}
+				/>
+
+				<Input
+					label="PIN"
+					value={confirmPassphrase}
+					onChange={(e) => setConfirmPassphrase(e.target.value)}
+				/>
 			</div>
 
 			<Button

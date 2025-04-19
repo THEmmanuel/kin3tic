@@ -87,7 +87,7 @@ const NullWalletHome = () => {
 
 				<div className={style.NullWalletHomeHeaderSub}>
 					<span>WELCOME BACK</span>
-					<span>mainHash: {mainHash || '...'}</span>
+					<span className={style.NullWalletHomeMainHashText}>mainHash: {mainHash || '...'}</span>
 
 					<div className={style.NullWalletChain}>
 						<span className={style.NullWalletChainName}>NULLNET ALPHA</span>

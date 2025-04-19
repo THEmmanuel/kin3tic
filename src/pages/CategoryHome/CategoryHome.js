@@ -6,6 +6,7 @@ import encodeIcon from '../../assets/lockIcon.svg'
 import decodeIcon from '../../assets/unlockIcon.svg'
 import scanIcon from '../../assets/scanIcon.svg'
 import paperIcon from '../../assets/paperIcon.svg'
+import walletIcon from '../../assets/walletIcon.svg'
 import { Link } from 'react-router-dom';
 
 
@@ -21,6 +22,12 @@ const Home = () => {
 			</div>
 
 			<div className={style.HomeCategoryWrapper}>
+			<Link to='/nullwallet/start'>
+					<ActionButton
+						icon={walletIcon}
+						text='START NULL WALLET'
+					/>
+				</Link>
 
 				<Link to='/create-unlock-hash'>
 					<ActionButton

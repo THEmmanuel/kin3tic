@@ -11,6 +11,15 @@ const PUBLIC_ROUTES = [
 	'/NullWallet/Start',
 	'/NullWallet/Import',
 	'/NullWallet/Create',
+	'/categories',
+	'/encode-kinetic-key',
+	'/decode-kinetic-key',
+	'/create-unlock-hash',
+	'/',
+	'/home',
+	'/kinetic-keys-whitepaper',
+	'/unlock-hash-scanner',
+	'/kinetic-key-scanner'
 ];
 
 const SessionGuard = ({ children, setUser, setMainHash }) => {

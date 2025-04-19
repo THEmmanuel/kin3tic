@@ -4,10 +4,15 @@ import style from './AssetCard.module.css'
 const AssetCard = (props) => {
 	return (
 		<div className={style.AssetCardWrapper}>
-			<span>{props.asset}</span>
-			<span>{props.assetAmount} {props.assetName}</span>
-			<span>{props.assetValue} {props.currency}</span>
-			<span>{props.assetUnitValue}</span>
+			<div className={style.AssetCardContent}>
+				<span>{props.asset}</span>
+				<span>{props.assetAmount ? Number(props.assetAmount).toFixed(3) : '0.000'} {props.assetName}</span>
+			</div>
+
+			<div className={style.AssetCardContent}>
+				<span>{props.assetValue ? Number(props.assetValue).toFixed(3) : '0.000'} {props.currency}</span>
+				<span>{props.assetUnitValue}</span>
+			</div>
 		</div>
 	)
 }
