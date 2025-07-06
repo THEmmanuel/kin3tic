@@ -1,0 +1,3 @@
+Hello from Kin3tic!
+This is a test file for Filecoin upload.
+Timestamp: 2024-01-01 
