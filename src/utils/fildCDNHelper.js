@@ -1,9 +1,18 @@
 import { Synapse, RPC_URLS } from '@filoz/synapse-sdk'
 import { ethers } from 'ethers'
 
-// Configuration from environment
+// Configuration from environment with fallbacks
 const PRIVATE_KEY = process.env.REACT_APP_PRIVATE_KEY || '12a58016561c2fdacf2b1ada8baa930731f17d028bd3efd51a4135b789971e70'
-const RPC_URL = process.env.REACT_APP_RPC_URL || RPC_URLS.calibration.http
+
+// Multiple RPC URL options for better compatibility
+const RPC_URLS_OPTIONS = [
+  process.env.REACT_APP_RPC_URL,
+  'https://api.calibration.node.glif.io/rpc/v1',
+  'https://calibration.filfox.info/rpc/v1',
+  'https://api.calibration.node.glif.io/apigw/lotus/rpc/v1'
+].filter(Boolean);
+
+const RPC_URL = RPC_URLS_OPTIONS[0] || 'https://api.calibration.node.glif.io/rpc/v1'
 
 /**
  * Upload a string to Filecoin storage and return a download link
@@ -13,105 +22,137 @@ const RPC_URL = process.env.REACT_APP_RPC_URL || RPC_URLS.calibration.http
  * @returns {Promise<{cid: string, downloadUrl: string, filename: string}>}
  */
 export async function uploadStringToFilecoin(content, filename = 'data.txt', onStatusUpdate = null) {
-  try {
-    const updateStatus = (status) => {
-      if (onStatusUpdate) onStatusUpdate(status);
-      console.log(`📤 ${status}`);
-    };
+  let lastError = null;
+  
+  // Try different RPC URLs if one fails
+  for (const rpcUrl of RPC_URLS_OPTIONS) {
+    try {
+      const updateStatus = (status) => {
+        if (onStatusUpdate) onStatusUpdate(status);
+        console.log(`📤 ${status}`);
+      };
 
-    updateStatus('Initializing Filecoin storage...');
-    
-    // Initialize the SDK
-    const synapse = await Synapse.create({
-      withCDN: true,
-      privateKey: PRIVATE_KEY,
-      rpcURL: RPC_URL
-    })
+      updateStatus('Initializing Filecoin storage...');
+      
+      // Initialize the SDK with more compatible settings
+      const synapse = await Synapse.create({
+        withCDN: true,
+        privateKey: PRIVATE_KEY,
+        rpcURL: rpcUrl,
+        disableNonceManager: false // Enable nonce management
+      })
 
-    updateStatus('SDK initialized successfully');
+      updateStatus('SDK initialized successfully');
 
-    // Create storage service with callbacks for monitoring
-    const storage = await synapse.createStorage({
-      callbacks: {
-        onProviderSelected: (provider) => {
-          updateStatus(`Selected storage provider: ${provider.owner}`);
+      // Create storage service with callbacks for monitoring
+      const storage = await synapse.createStorage({
+        callbacks: {
+          onProviderSelected: (provider) => {
+            updateStatus(`Selected storage provider: ${provider.owner}`);
+          },
+          onProofSetResolved: (info) => {
+            if (info.isExisting) {
+              updateStatus(`Using existing proof set: ${info.proofSetId}`);
+            } else {
+              updateStatus(`Created new proof set: ${info.proofSetId}`);
+            }
+          },
+          onProofSetCreationStarted: (transaction, statusUrl) => {
+            updateStatus(`Creating proof set, transaction submitted: ${transaction.hash}`);
+          },
+          onProofSetCreationProgress: (progress) => {
+            if (progress.transactionMined && !progress.proofSetLive) {
+              updateStatus('Transaction mined, waiting for proof set to be live...');
+            }
+          },
         },
-        onProofSetResolved: (info) => {
-          if (info.isExisting) {
-            updateStatus(`Using existing proof set: ${info.proofSetId}`);
-          } else {
-            updateStatus(`Created new proof set: ${info.proofSetId}`);
-          }
-        },
-        onProofSetCreationStarted: (transaction, statusUrl) => {
-          updateStatus(`Creating proof set, transaction submitted: ${transaction.hash}`);
-        },
-        onProofSetCreationProgress: (progress) => {
-          if (progress.transactionMined && !progress.proofSetLive) {
-            updateStatus('Transaction mined, waiting for proof set to be live...');
-          }
-        },
-      },
-    })
+      })
 
-    updateStatus('Storage service created');
+      updateStatus('Storage service created');
 
-    // Convert string to Uint8Array
-    const data = new TextEncoder().encode(content)
-    updateStatus(`Preparing to upload ${data.length} bytes`);
+      // Convert string to Uint8Array
+      const data = new TextEncoder().encode(content)
+      updateStatus(`Preparing to upload ${data.length} bytes`);
 
-    // Run preflight checks
-    updateStatus('Running preflight checks...');
-    const preflight = await storage.preflightUpload(data.length)
-    updateStatus('Preflight checks completed');
+      // Run preflight checks
+      updateStatus('Running preflight checks...');
+      const preflight = await storage.preflightUpload(data.length)
+      updateStatus('Preflight checks completed');
 
-    if (!preflight.allowanceCheck.sufficient) {
-      throw new Error('Allowance not sufficient. Please ensure you have sufficient USDFC balance.');
-    }
-
-    // Upload the data
-    updateStatus('Uploading to Filecoin...');
-    const uploadResult = await storage.upload(data, {
-      onUploadComplete: (commp) => {
-        updateStatus(`Upload complete! CommP: ${commp}`);
-      },
-      onRootAdded: (transaction) => {
-        if (transaction) {
-          updateStatus(`Transaction confirmed: ${transaction.hash}`);
-        } else {
-          updateStatus('Data added to proof set');
-        }
-      },
-      onRootConfirmed: (rootIds) => {
-        updateStatus(`Root IDs assigned: ${rootIds.join(', ')}`);
+      if (!preflight.allowanceCheck.sufficient) {
+        throw new Error('Allowance not sufficient. Please ensure you have sufficient USDFC balance.');
       }
-    })
 
-    const cid = uploadResult.commp
-    updateStatus(`Upload successful! CID: ${cid}`);
+      // Upload the data
+      updateStatus('Uploading to Filecoin...');
+      const uploadResult = await storage.upload(data, {
+        onUploadComplete: (commp) => {
+          updateStatus(`Upload complete! CommP: ${commp}`);
+        },
+        onRootAdded: (transaction) => {
+          if (transaction) {
+            updateStatus(`Transaction confirmed: ${transaction.hash}`);
+          } else {
+            updateStatus('Data added to proof set');
+          }
+        },
+        onRootConfirmed: (rootIds) => {
+          updateStatus(`Root IDs assigned: ${rootIds.join(', ')}`);
+        }
+      })
 
-    // Get wallet address for the download URL
-    const walletAddress = await synapse.getSigner().getAddress();
-    
-    // Create download URL using the calibration.filcdn.io format
-    const downloadUrl = `https://${walletAddress}.calibration.filcdn.io/${cid}`;
+      const cid = uploadResult.commp
+      updateStatus(`Upload successful! CID: ${cid}`);
 
-    updateStatus('Download link generated successfully');
+      // Get wallet address for the download URL
+      const walletAddress = await synapse.getSigner().getAddress();
+      
+      // Create download URL using the calibration.filcdn.io format
+      const downloadUrl = `https://${walletAddress}.calibration.filcdn.io/${cid}`;
 
-    return {
-      cid: cid.toString(),
-      downloadUrl,
-      filename,
-      size: data.length,
-      provider: storage.storageProvider,
-      proofSetId: storage.proofSetId,
-      walletAddress: walletAddress
+      updateStatus('Download link generated successfully');
+
+      return {
+        cid: cid.toString(),
+        downloadUrl,
+        filename,
+        size: data.length,
+        provider: storage.storageProvider,
+        proofSetId: storage.proofSetId,
+        walletAddress: walletAddress
+      }
+
+    } catch (error) {
+      console.error(`❌ Upload failed with RPC ${rpcUrl}:`, error)
+      lastError = error;
+      
+      // If it's a signing method error, try the next RPC URL
+      if (error.message && error.message.includes('eth_signTypedData_v4')) {
+        continue;
+      }
+      
+      // If it's a server error, try the next RPC URL
+      if (error.message && error.message.includes('SERVER_ERROR')) {
+        continue;
+      }
+      
+      // For other errors, break and throw
+      break;
     }
-
-  } catch (error) {
-    console.error('❌ Upload failed:', error)
-    throw new Error(`Filecoin upload failed: ${error.message}`)
   }
+  
+  // If we get here, all RPC URLs failed
+  console.error('❌ All RPC URLs failed:', lastError)
+  
+  if (lastError.message && lastError.message.includes('eth_signTypedData_v4')) {
+    throw new Error('RPC endpoints do not support required signing method. Please try again later or contact support.');
+  }
+  
+  if (lastError.message && lastError.message.includes('SERVER_ERROR')) {
+    throw new Error('Server errors occurred with all endpoints. Please try again in a few moments.');
+  }
+  
+  throw new Error(`Filecoin upload failed: ${lastError.message}`)
 }
 
 /**
