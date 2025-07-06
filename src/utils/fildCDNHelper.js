@@ -7,12 +7,21 @@ const PRIVATE_KEY = process.env.REACT_APP_PRIVATE_KEY || '12a58016561c2fdacf2b1a
 // Multiple RPC URL options for better compatibility
 const RPC_URLS_OPTIONS = [
   process.env.REACT_APP_RPC_URL,
-  'https://api.calibration.node.glif.io/rpc/v1',
   'https://calibration.filfox.info/rpc/v1',
-  'https://api.calibration.node.glif.io/apigw/lotus/rpc/v1'
+  'https://api.calibration.node.glif.io/apigw/lotus/rpc/v1',
+  'https://api.calibration.node.glif.io/rpc/v1'
 ].filter(Boolean);
 
 const RPC_URL = RPC_URLS_OPTIONS[0] || 'https://api.calibration.node.glif.io/rpc/v1'
+
+// Debug logging
+console.log('🔧 Filecoin Configuration:', {
+  hasPrivateKey: !!PRIVATE_KEY,
+  privateKeyLength: PRIVATE_KEY?.length,
+  rpcUrls: RPC_URLS_OPTIONS,
+  selectedRpc: RPC_URL,
+  environment: process.env.NODE_ENV
+});
 
 /**
  * Upload a string to Filecoin storage and return a download link
@@ -25,14 +34,17 @@ export async function uploadStringToFilecoin(content, filename = 'data.txt', onS
   let lastError = null;
   
   // Try different RPC URLs if one fails
-  for (const rpcUrl of RPC_URLS_OPTIONS) {
+  for (let i = 0; i < RPC_URLS_OPTIONS.length; i++) {
+    const rpcUrl = RPC_URLS_OPTIONS[i];
+    
     try {
       const updateStatus = (status) => {
         if (onStatusUpdate) onStatusUpdate(status);
         console.log(`📤 ${status}`);
       };
 
-      updateStatus('Initializing Filecoin storage...');
+      updateStatus(`Initializing Filecoin storage (attempt ${i + 1}/${RPC_URLS_OPTIONS.length})...`);
+      console.log(`🔄 Trying RPC URL: ${rpcUrl}`);
       
       // Initialize the SDK with more compatible settings
       const synapse = await Synapse.create({
@@ -111,6 +123,7 @@ export async function uploadStringToFilecoin(content, filename = 'data.txt', onS
       const downloadUrl = `https://${walletAddress}.calibration.filcdn.io/${cid}`;
 
       updateStatus('Download link generated successfully');
+      console.log(`✅ Upload successful with RPC: ${rpcUrl}`);
 
       return {
         cid: cid.toString(),
@@ -128,15 +141,18 @@ export async function uploadStringToFilecoin(content, filename = 'data.txt', onS
       
       // If it's a signing method error, try the next RPC URL
       if (error.message && error.message.includes('eth_signTypedData_v4')) {
+        console.log(`🔄 eth_signTypedData_v4 not supported, trying next RPC URL...`);
         continue;
       }
       
       // If it's a server error, try the next RPC URL
       if (error.message && error.message.includes('SERVER_ERROR')) {
+        console.log(`🔄 Server error, trying next RPC URL...`);
         continue;
       }
       
       // For other errors, break and throw
+      console.log(`🔄 Non-recoverable error, stopping retry...`);
       break;
     }
   }
@@ -145,7 +161,7 @@ export async function uploadStringToFilecoin(content, filename = 'data.txt', onS
   console.error('❌ All RPC URLs failed:', lastError)
   
   if (lastError.message && lastError.message.includes('eth_signTypedData_v4')) {
-    throw new Error('RPC endpoints do not support required signing method. Please try again later or contact support.');
+    throw new Error('All RPC endpoints do not support required signing method. Please try again later or contact support.');
   }
   
   if (lastError.message && lastError.message.includes('SERVER_ERROR')) {
