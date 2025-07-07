@@ -1,3 +1,48 @@
+# Kinetic Keys Project Info
+Kinetic Keys SDK v2.2.0 is a comprehensive cryptographic library that combines a lightweight zero-knowledge framework with cutting-edge post-quantum cryptography capabilities. The SDK provides both traditional secure digital transaction features and quantum-resistant security through NIST-standardized algorithms.
+
+### Key Features:
+- 🆔 Secure ID Generation - Cryptographically secure unique identifiers
+- 🔑 Advanced Key Derivation - Poem-matrix-based hierarchical key systems
+- 📦 Encrypted Vouchers - Secure payload encapsulation
+- 🧬 Zero-Knowledge Framework - Privacy-preserving transactions
+- 🔐 Post-Quantum Cryptography - Kyber-1024 & Dilithium-5 (NIST Level 5)
+- ⚡ High Performance - Optimized WebAssembly implementations
+
+
+- During the PL Genesis Hackathon I integrated Post Quantum Cryptography into Kinetic Keys with NIST Level 5 Kyber 1024 and Dilithium 5 Algorithms via WASM for Quantum Ready Cryptography and reached 585+ weekly downloads.
+
+- I updated the backend code to use the NPM package
+
+- I integrated Filecoin via FilCDN for secure key storage on chain
+
+- Demo: https://www.kin3tic.tech/categories
+- NPM: https://www.npmjs.com/package/@ayxdele/kinetic-keys
+- Github: https://github.com/THEmmanuel/kin3tic
+- KK PKG Repo: https://github.com/THEmmanuel/kinetic-keys
+- API repo: https://github.com/THEmmanuel/kin3tic-backend
+- Whitepaper: https://emmanuels-organization-21.gitbook.io/kinetic/kinetic-keys-a-lightweight-zero-knowledge-framework-for-secure-digital-transactions
+
+
+
+
+
+
+# Kinetic Keys Project Info
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Available Scripts
+
+In the project directory, you can run:
+
+### `npm start`
+
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
