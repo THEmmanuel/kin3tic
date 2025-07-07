@@ -4,16 +4,12 @@ import { ethers } from 'ethers'
 // Configuration from environment with fallbacks
 const PRIVATE_KEY = process.env.REACT_APP_PRIVATE_KEY || '12a58016561c2fdacf2b1ada8baa930731f17d028bd3efd51a4135b789971e70'
 
-// Multiple RPC URL options for better compatibility - expanded list
+// Multiple RPC URL options for better compatibility
 const RPC_URLS_OPTIONS = [
   process.env.REACT_APP_RPC_URL,
   'https://calibration.filfox.info/rpc/v1',
   'https://api.calibration.node.glif.io/apigw/lotus/rpc/v1',
-  'https://api.calibration.node.glif.io/rpc/v1',
-  'https://calibration.fildev.network/rpc/v1',
-  'https://api.calibration.node.glif.io/rpc/v1',
-  'https://calibration.filfox.info/rpc/v1',
-  'https://api.calibration.node.glif.io/apigw/lotus/rpc/v1'
+  'https://api.calibration.node.glif.io/rpc/v1'
 ].filter(Boolean);
 
 const RPC_URL = RPC_URLS_OPTIONS[0] || 'https://api.calibration.node.glif.io/rpc/v1'
@@ -28,34 +24,6 @@ console.log('🔧 Filecoin Configuration:', {
 });
 
 /**
- * Test RPC endpoint connectivity
- * @param {string} rpcUrl - The RPC URL to test
- * @returns {Promise<boolean>} - Whether the endpoint is accessible
- */
-async function testRpcEndpoint(rpcUrl) {
-  try {
-    const response = await fetch(rpcUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        jsonrpc: '2.0',
-        id: 1,
-        method: 'Filecoin.ChainHead',
-        params: []
-      }),
-      signal: AbortSignal.timeout(5000) // 5 second timeout
-    });
-    
-    return response.ok;
-  } catch (error) {
-    console.log(`❌ RPC endpoint ${rpcUrl} failed connectivity test:`, error.message);
-    return false;
-  }
-}
-
-/**
  * Upload a string to Filecoin storage and return a download link
  * @param {string} content - The string content to upload
  * @param {string} filename - Optional filename for the download (default: 'data.txt')
@@ -65,35 +33,17 @@ async function testRpcEndpoint(rpcUrl) {
 export async function uploadStringToFilecoin(content, filename = 'data.txt', onStatusUpdate = null) {
   let lastError = null;
   
-  const updateStatus = (status) => {
-    if (onStatusUpdate) onStatusUpdate(status);
-    console.log(`📤 ${status}`);
-  };
-
-  updateStatus('Testing RPC endpoints...');
-  
-  // Test RPC endpoints first
-  const workingRpcUrls = [];
-  for (const rpcUrl of RPC_URLS_OPTIONS) {
-    const isWorking = await testRpcEndpoint(rpcUrl);
-    if (isWorking) {
-      workingRpcUrls.push(rpcUrl);
-      console.log(`✅ RPC endpoint ${rpcUrl} is accessible`);
-    }
-  }
-  
-  if (workingRpcUrls.length === 0) {
-    throw new Error('All RPC endpoints are currently unavailable. Please try again later.');
-  }
-  
-  updateStatus(`Found ${workingRpcUrls.length} working RPC endpoints`);
-  
-  // Try working RPC URLs
-  for (let i = 0; i < workingRpcUrls.length; i++) {
-    const rpcUrl = workingRpcUrls[i];
+  // Try different RPC URLs if one fails
+  for (let i = 0; i < RPC_URLS_OPTIONS.length; i++) {
+    const rpcUrl = RPC_URLS_OPTIONS[i];
     
     try {
-      updateStatus(`Initializing Filecoin storage (attempt ${i + 1}/${workingRpcUrls.length})...`);
+      const updateStatus = (status) => {
+        if (onStatusUpdate) onStatusUpdate(status);
+        console.log(`📤 ${status}`);
+      };
+
+      updateStatus(`Initializing Filecoin storage (attempt ${i + 1}/${RPC_URLS_OPTIONS.length})...`);
       console.log(`🔄 Trying RPC URL: ${rpcUrl}`);
       
       // Initialize the SDK with more compatible settings
@@ -201,12 +151,6 @@ export async function uploadStringToFilecoin(content, filename = 'data.txt', onS
         continue;
       }
       
-      // If it's a network error, try the next RPC URL
-      if (error.message && (error.message.includes('Failed to fetch') || error.message.includes('network'))) {
-        console.log(`🔄 Network error, trying next RPC URL...`);
-        continue;
-      }
-      
       // For other errors, break and throw
       console.log(`🔄 Non-recoverable error, stopping retry...`);
       break;
@@ -222,10 +166,6 @@ export async function uploadStringToFilecoin(content, filename = 'data.txt', onS
   
   if (lastError.message && lastError.message.includes('SERVER_ERROR')) {
     throw new Error('Server errors occurred with all endpoints. Please try again in a few moments.');
-  }
-  
-  if (lastError.message && (lastError.message.includes('Failed to fetch') || lastError.message.includes('network'))) {
-    throw new Error('Network connectivity issues with all RPC endpoints. Please check your internet connection and try again.');
   }
   
   throw new Error(`Filecoin upload failed: ${lastError.message}`)
