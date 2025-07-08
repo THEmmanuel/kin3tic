@@ -25,10 +25,33 @@ Kinetic Keys SDK v2.2.0 is a comprehensive cryptographic library that combines a
 
 
 
+## Backend Environment Setup (.env)
+
+For backend setup, create a `.env` file in the root of the backend project with at least the following variables:
+
+```
+MONGO_URI=your_mongodb_connection_string
+PORT=your_desired_port
+```
+
+For full backend setup instructions, see the [backend repo README](https://github.com/THEmmanuel/kin3tic-backend).
+
+
+## Frontend Environment Setup (.env)
+
+To run the frontend locally, you need to create a `.env` file in the root of the project with the following variables:
+
+```
+REACT_APP_BACKEND_API=your_backend_api_url
+REACT_APP_PRIVATE_KEY=your_private_key
+REACT_APP_RPC_URL=your_rpc_url
+```
+
+Replace the values with your actual configuration. These variables are required for the application to connect to the backend and blockchain services.
 
 
 
-# Kinetic Keys Project Info
+# Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
